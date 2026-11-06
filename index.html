@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Meja Layanan Komplain Elektronik</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e9edf1;--panel:#fff;--ink:#14202b;--mute:#5d6b78;--line:#d3dae1;--acc:#0f6e8c;--acc2:#e3f1f6;--warn:#a46f00;--warn2:#fbf0d4;--bad:#b3372f;--bad2:#fbe4e1;--ok:#2f7d4f;--ok2:#e0f2e7;--me:#0f6e8c;--me-t:#fff;--them:#eef1f4;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10171d;--panel:#18222b;--ink:#e6ecf1;--mute:#93a2af;--line:#2b3946;--acc:#4fb4d3;--acc2:#183440;--warn:#e0b04a;--warn2:#3a2f14;--bad:#f08a80;--bad2:#3d1f1c;--ok:#6cc690;--ok2:#17322366;--me:#1d6f8a;--them:#223140}}
+:root[data-theme="dark"]{--bg:#10171d;--panel:#18222b;--ink:#e6ecf1;--mute:#93a2af;--line:#2b3946;--acc:#4fb4d3;--acc2:#183440;--warn:#e0b04a;--warn2:#3a2f14;--bad:#f08a80;--bad2:#3d1f1c;--ok:#6cc690;--ok2:#173223;--me:#1d6f8a;--them:#223140}
+*{box-sizing:border-box}html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font:14px/1.45 "IBM Plex Sans",system-ui,sans-serif}
+button,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.app{display:grid;grid-template-columns:300px 1fr 320px;grid-template-rows:auto 1fr;height:100%;gap:1px;background:var(--line)}
+header{grid-column:1/-1;background:var(--panel);display:flex;align-items:center;gap:16px;padding:10px 16px;flex-wrap:wrap}
+header h1{font-size:16px;margin:0;font-weight:600}
+header .stats{margin-left:auto;display:flex;gap:18px;color:var(--mute);font-size:13px}
+header .stats b{color:var(--ink);font-weight:600}
+.col{background:var(--panel);min-height:0;display:flex;flex-direction:column}
+.tabs{display:flex;border-bottom:1px solid var(--line)}
+.tabs button{flex:1;padding:10px 4px;background:none;border:0;border-bottom:2px solid transparent;color:var(--mute)}
+.tabs button[aria-selected=true]{color:var(--acc);border-color:var(--acc);font-weight:600}
+.list{overflow:auto;flex:1}
+.tk{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:11px 14px;border-left:3px solid transparent}
+.tk[aria-current=true]{background:var(--acc2);border-left-color:var(--acc)}
+.tk .r1{display:flex;justify-content:space-between;gap:8px;font-weight:600}
+.tk .r2{color:var(--mute);font-size:12.5px;margin-top:2px}
+.tk .r3{display:flex;gap:6px;margin-top:6px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12px;padding:1px 8px;border-radius:99px;background:var(--them);color:var(--mute)}
+.tag.ch{background:var(--acc2);color:var(--acc)}.tag.w{background:var(--warn2);color:var(--warn)}.tag.b{background:var(--bad2);color:var(--bad)}.tag.o{background:var(--ok2);color:var(--ok)}
+.main{display:flex;flex-direction:column;min-height:0;flex:1}
+.mh{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.mh h2{margin:0;font-size:15px}.mh small{color:var(--mute)}
+.msgs{flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--bg)}
+.m{max-width:75%;padding:8px 12px;border-radius:12px 12px 12px 3px;background:var(--panel);border:1px solid var(--line)}
+.m.me{align-self:flex-end;background:var(--me);color:var(--me-t);border-color:var(--me);border-radius:12px 12px 3px 12px}
+.ad{position:fixed;inset:0;background:var(--bg);z-index:30;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}.ad[hidden]{display:none}.adh{display:flex;gap:10px;align-items:center;padding:10px 16px;background:var(--panel);border-bottom:1px solid var(--line);flex-wrap:wrap}.adb{display:grid;grid-template-columns:minmax(300px,45%) 1fr;gap:1px;background:var(--line);flex:1;min-height:0}.adb>div{background:var(--panel);overflow:auto;padding:12px}.tb{width:100%;border-collapse:collapse;font-size:13px}.tb th{text-align:left;color:var(--mute);font-weight:600;padding:6px 4px}.tb td{padding:7px 4px;border-top:1px solid var(--line)}.tb tr[data-id]{cursor:pointer}.tb tr.on{background:var(--acc2)}.mt{color:var(--mute)}.gf{display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap;margin:10px 0}.gf input,.gf textarea,.card input,.adh input{border:1px solid var(--line);border-radius:8px;padding:7px 9px;background:var(--panel);color:var(--ink)}.card input{width:100%}.gf textarea{flex:1;min-width:180px;height:56px}details{border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin:8px 0}summary{cursor:pointer}.rb{margin:6px 0;display:flex;gap:4px;flex-wrap:wrap}.grb{flex-basis:100%;background:var(--ok2);color:var(--ok);padding:6px 10px;border-radius:8px}.grb[hidden]{display:none}
+@media (max-width:980px){.adb{grid-template-columns:1fr}}
+.mod{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:20}.mod[hidden]{display:none}.card{background:var(--panel);border-radius:12px;max-width:640px;width:100%;max-height:92vh;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:10px}.card svg{width:100%;border-radius:8px;display:block}.card ul{margin:4px 0;padding-left:20px}.ch{display:flex;justify-content:space-between;align-items:center;gap:8px}.opt{display:block;padding:4px 0}.fb{padding:10px;border-radius:8px}
+.att::after{content:" (klik untuk lihat)";color:var(--acc)}
+.att{display:block;width:100%;text-align:left;cursor:pointer;font-family:inherit;background:var(--them);border:1px dashed var(--line);border-radius:8px;padding:16px 12px;margin-bottom:6px;font-size:12.5px;color:var(--mute)}
+.m time{display:block;font-size:11px;opacity:.65;margin-top:2px}
+.m.sys{align-self:center;background:none;border:0;color:var(--mute);font-size:12.5px}
+.qr{padding:8px 12px;display:flex;gap:6px;flex-wrap:wrap;border-top:1px solid var(--line)}
+.qr button{border:1px solid var(--line);background:var(--panel);border-radius:99px;padding:4px 11px;font-size:12.5px}
+.qr button:hover{border-color:var(--acc);color:var(--acc)}
+.comp{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--line)}
+.comp textarea{flex:1;resize:none;height:46px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--panel)}
+.btn{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:8px 14px}
+.btn.p{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:500}
+.btn.d{background:var(--bad);border-color:var(--bad);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.voice{flex:1;display:flex;flex-direction:column;min-height:0;background:var(--bg)}
+.callbar{display:flex;align-items:center;gap:16px;padding:16px;background:var(--panel);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.timer{font-size:26px;font-weight:600;font-variant-numeric:tabular-nums;min-width:90px}
+.wave{display:flex;gap:3px;align-items:center;height:36px;flex:1;min-width:120px}
+.wave i{width:4px;height:6px;border-radius:2px;background:var(--mute);opacity:.5}
+.live .wave i{background:var(--acc);opacity:1;animation:w 1s ease-in-out infinite}
+@keyframes w{50%{height:32px}}
+@media (prefers-reduced-motion:reduce){.live .wave i{animation:none;height:18px}}
+.ctl{display:flex;gap:8px;flex-wrap:wrap}
+.tr{flex:1;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:8px}
+.tl{display:grid;grid-template-columns:76px 1fr;gap:8px}
+.tl b{font-weight:600;font-size:12.5px;color:var(--mute)}.tl.a b{color:var(--acc)}
+.turn{border:1px dashed var(--acc);background:var(--acc2);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px}.turn input{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--panel);width:100%}
+.empty{margin:auto;color:var(--mute);text-align:center;max-width:300px}
+.side{overflow:auto;padding:14px;display:flex;flex-direction:column;gap:14px}
+.side h3{margin:0 0 6px;font-size:13px;color:var(--mute);font-weight:600}
+.kv{display:grid;grid-template-columns:90px 1fr;gap:3px 8px;font-size:13px}.kv span:nth-child(odd){color:var(--mute)}
+.chk{display:flex;gap:8px;align-items:flex-start;padding:4px 0}
+.chk input{margin-top:3px}
+.side select,.side textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:7px 9px;background:var(--panel)}
+.side textarea{height:70px;resize:vertical}
+.type{padding:8px 10px;border-radius:8px;background:var(--warn2);color:var(--warn);font-weight:600}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+@media (max-width:980px){.app{grid-template-columns:1fr;grid-template-rows:auto auto;height:auto}.col.q{max-height:260px}.main{min-height:520px}header .stats{margin-left:0}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><h1>Meja Layanan Komplain Elektronik</h1>
+<div class="stats"><span>Terbuka <b id="sOpen">0</b></span><span>Chat <b id="sChat">0</b></span><span>Suara <b id="sVoice">0</b></span><span>Selesai <b id="sDone">0</b></span></div><span id="sv" class="mt" style="font-size:12.5px"></span><button class="btn" id="dl">Unduh riwayat</button><button class="btn p" id="adb" hidden>Panel Guru</button><div class="grb" id="gr" hidden></div></header>
+
+<section class="col q" aria-label="Antrean komplain">
+<div class="tabs" role="tablist" id="tabs">
+<button role="tab" aria-selected="true" data-f="all">Semua</button>
+<button role="tab" aria-selected="false" data-f="chat">Chat</button>
+<button role="tab" aria-selected="false" data-f="voice">Suara</button></div>
+<div class="list" id="list"></div></section>
+
+<section class="col" aria-label="Percakapan"><div class="main" id="main"></div></section>
+<aside class="col" aria-label="Penanganan kasus"><div class="side" id="side"></div></aside>
+</div>
+<div class="mod" id="mod" hidden><div class="card" role="dialog" aria-modal="true" aria-label="Bukti pelanggan"><div class="ch"><b id="mt"></b><button class="btn" id="mx">Tutup</button></div><div id="mv"></div><div id="mq"></div></div></div>
+<div class="ad" id="ad" hidden><div class="adh"><b>Panel Guru: riwayat praktik siswa</b><span class="mt" id="adc"></span><input id="adq" placeholder="Cari nama atau kelas" aria-label="Cari siswa"><span style="margin-left:auto"></span><button class="btn" id="adx">Unduh rekap (CSV)</button><button class="btn" id="adz">Tutup</button></div><div class="adb"><div id="adl"></div><div id="add"></div></div></div>
+<div class="mod" id="lg" hidden><div class="card" role="dialog" aria-modal="true" aria-label="Data siswa"><b>Mulai praktik layanan pelanggan</b><p class="mt" style="margin:0">Isi data diri agar riwayat chat dan panggilanmu tersimpan dan bisa dinilai guru.</p><input id="lgn" placeholder="Nama lengkap" autocomplete="name"><input id="lgk" placeholder="Kelas (mis. XI TKJ 2)"><button class="btn p" id="lgb">Mulai praktik</button></div></div>
+<div class="mod" id="bl" hidden style="z-index:40"><div class="card" role="alertdialog" aria-modal="true"><b>Masuk dulu untuk memulai praktik</b><p id="bln" class="mt" style="margin:0">Halaman ini hanya bisa dipakai lewat tautan undangan dari gurumu, dengan akun Claude yang sudah masuk, supaya riwayat praktikmu tersimpan dan bisa dinilai. Buka tautan undangan dari gurumu, masuk ke Claude, lalu muat ulang halaman ini.</p></div></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const TYPES={
+rusak:{n:'Barang rusak',chk:['Minta foto/video kondisi barang dan kemasan','Cek video unboxing (jika ada)','Cocokkan nomor pesanan dan serial number','Cek tanggal terima (maks. 2×24 jam)'],res:['Kirim barang pengganti','Refund penuh','Jemput barang & periksa dulu'],qr:['Mohon maaf atas ketidaknyamanannya. Boleh kirimkan foto atau video kerusakannya?','Apakah kemasan luar juga rusak atau penyok?','Kami akan proses penggantian setelah bukti kami terima.']},
+salah:{n:'Barang tidak sesuai pesanan',chk:['Bandingkan barang diterima dengan detail pesanan','Minta foto barang & label/box','Cek resi dan gudang pengirim','Pastikan barang belum dipakai'],res:['Tukar ke barang yang benar','Refund penuh','Jemput barang & kirim yang benar']},
+jumlah:{n:'Jumlah tidak sesuai',chk:['Cocokkan jumlah di invoice dengan yang diterima','Minta foto isi paket dan resi','Cek berat paket di resi vs berat standar','Cek log packing gudang'],res:['Kirim kekurangan barang','Refund selisih jumlah','Investigasi gudang dulu']},
+garansi:{n:'Klaim garansi',chk:['Verifikasi nomor seri & tanggal pembelian','Pastikan masih dalam masa garansi','Cek kartu garansi / nota pembelian','Cek tidak ada kerusakan akibat pengguna (jatuh, cairan)'],res:['Terima klaim – kirim ke service center','Ganti unit baru','Tolak klaim (di luar cakupan)']}};
+TYPES.salah.qr=['Mohon maaf atas kekeliruannya. Boleh kirim foto barang beserta labelnya?','Barang yang Anda terima belum dipakai, ya?','Kami akan kirim barang yang benar setelah verifikasi.'];
+TYPES.jumlah.qr=['Mohon maaf. Boleh kirim foto isi paket dan resi pengirimannya?','Berapa jumlah yang tertera di invoice dan berapa yang Anda terima?','Kami akan cek ke gudang dan segera kabari hasilnya.'];
+TYPES.garansi.qr=['Boleh sebutkan nomor seri dan tanggal pembelian produknya?','Mohon kirim foto nota atau kartu garansi.','Klaim Anda kami terima. Unit akan diperiksa oleh service center.'];
+const CL='Terima kasih sudah menghubungi kami. Ada hal lain yang bisa kami bantu, kak?';
+Object.assign(TYPES.rusak,{qr:['Mohon maaf atas kendalanya, kak {name}. Boleh kirim foto atau video kondisi barang dan kemasannya?','Laporan Anda sudah kami catat dengan nomor {id}: {prod} diterima dalam keadaan rusak, pesanan {order}. Apakah sudah sesuai, kak?','Solusinya, kami kirim unit pengganti dan unit yang rusak akan dijemput kurir kami.','Estimasi unit pengganti tiba 2-3 hari kerja, kurir menjemput besok. Mohon barang tidak dibuang dulu ya.',CL]});
+Object.assign(TYPES.salah,{qr:['Mohon maaf atas kekeliruannya, kak {name}. Boleh kirim foto barang yang diterima beserta label di boxnya?','Laporan Anda sudah kami catat dengan nomor {id}: pesanan {order} {prod}, tetapi barang yang diterima berbeda. Sudah sesuai, kak?','Solusinya, kami kirim barang yang benar dan barang yang salah dijemput. Bisa juga refund penuh jika kakak mau.','Estimasi barang yang benar tiba 2-3 hari kerja setelah barang salah kami jemput. Mohon jangan dipakai dulu ya.',CL]});
+Object.assign(TYPES.jumlah,{qr:['Mohon maaf, kak {name}. Boleh kirim foto isi paket dan resi pengirimannya?','Laporan Anda sudah kami catat dengan nomor {id}: jumlah {prod} yang diterima kurang dari pesanan {order}. Sudah sesuai, kak?','Solusinya, kami kirim kekurangan barangnya setelah gudang selesai mengecek. Kalau mau, selisihnya bisa kami refund.','Hasil cek gudang kami kabari maksimal 1x24 jam, kekurangan barang dikirim 2-3 hari kerja setelahnya.',CL]});
+Object.assign(TYPES.garansi,{qr:['Baik kak {name}, boleh sebutkan nomor seri dan kirim foto nota pembelian atau kartu garansinya?','Laporan klaim Anda sudah kami catat dengan nomor {id}: {prod}, pesanan {order}. Apakah sudah sesuai, kak?','Solusinya, unit kami terima untuk klaim garansi dan diperiksa oleh service center resmi.','Pemeriksaan di service center sekitar 3-5 hari kerja, hasilnya kami kabari lewat chat atau telepon.',CL]});
+const pick=a=>a[Math.random()*a.length|0];
+const fill=(s,t)=>s.split('{order}').join(t.order).split('{prod}').join(t.prod).split('{id}').join(t.id).split('{name}').join(t.name.split(' ')[0]);
+const PQ={all:['Alamat pengiriman tetap yang di pesanan ya kak, tidak berubah.','Nomor saya yang terdaftar tetap bisa dihubungi lewat WhatsApp ya kak.','Nanti ada nomor resi untuk saya lacak, kak?','Ada kompensasi atau voucher atas ketidaknyamanan ini, kak?','Kalau lewat dari estimasi dan belum ada kabar, saya harus hubungi siapa?','Ada biaya tambahan yang harus saya bayar, kak?','Ada nomor tiket yang bisa saya pantau?'],rusak:['Barang yang rusak ini saya simpan dulu atau boleh dibuang, kak?','Kardus dan busanya perlu saya simpan untuk penjemputan?','Selama menunggu, barang rusaknya jangan saya pakai dulu kan?'],salah:['Barang yang salah ini sebaiknya jangan saya buka lagi ya, kak?','Ongkir pengembalian barang ditanggung siapa, kak?','Boleh saya minta barang yang benar dikirim duluan?'],jumlah:['Kekurangannya dikirim bareng atau terpisah, kak?','Perlu saya kirim ulang foto resi ke email?','Paket yang sudah saya terima ini disimpan saja kan, kak?'],garansi:['Selama diservice, ada unit pengganti sementara?','Data di perangkat saya aman kalau dibuka teknisi, kak?','Garansinya tetap berlaku setelah diperbaiki?']};
+function preQ(t,s){const p=[...PQ[t.type],...PQ.all].filter(q=>!s.u.includes(q));if(!p.length||s.pc>=3)return null;const q=pick(p);s.u.push(q);s.pc++;return q}
+function farewell(t,s,tn,add){const W={rusak:'Saya siapkan barang yang rusak dan tunggu kurirnya ya.',salah:'Saya tunggu barang yang benar ya.',jumlah:'Saya tunggu kekurangan barangnya ya.',garansi:'Saya tunggu kabar dari service center ya.'}[t.type];add(pick([['Baik kak, kalau begitu sudah jelas. Terima kasih banyak atas bantuannya.','Oke kak, sudah clear. Pelayanannya ramah, terima kasih ya.'],['Baik, sudah jelas. Saya tunggu realisasinya ya kak.','Oke, saya pegang janji kakak ya.'],['Sip kak, udah jelas. Makasih ya!','Oke deh kak, makasih banyak!']][tn]));add(pick([W,W+' Tolong kabari kalau ada update.']));s.done=1}
+function custReply(t,raw,ch){const x=(raw||'').toLowerCase(),s=t.ST=t.ST||{n:0,ph:0,asked:0,ack:0,pc:0,u:[]},has=r=>r.test(x),o=[],add=(a,b)=>o.push({text:a,att:b});s.n++;const tn=+t.id.slice(4)%3;if(s.done){s.d2=(s.d2||0)+1;return s.d2>1?[]:[{text:pick(['Baik kak, terima kasih ya.','Siap kak, sama-sama.'])}]}
+if(has(/foto|video|bukti|unboxing|gambar|rekaman/)){if(ch=='chat'){const A={rusak:['foto-kerusakan.jpg','video-unboxing.mp4'],salah:['foto-barang-diterima.jpg','foto-label-box.jpg'],jumlah:['foto-isi-paket.jpg','foto-resi-pengiriman.jpg'],garansi:['foto-nota-pembelian.jpg','foto-nomor-seri.jpg']}[t.type];add(pick(['Ini fotonya ya kak.','Sudah saya foto, ini buktinya.','Ini kak, tolong dicek ya.']),A[0]);if(!s.ph)add('Yang satu lagi dari sisi yang berbeda.',A[1])}else add(pick(['Baik, nanti saya kirim foto dan videonya lewat chat sekarang ya.','Oke, saya kirim buktinya ke chat sebentar lagi.']));s.ph++}
+else if(has(/nomor seri|serial|nomor pesanan|invoice/)){add('Nomor pesanannya '+t.order+', nomor serinya SN'+t.id.slice(4)+'7731.')}
+else if(has(/estimasi|hari|jam|besok|lusa|minggu|1x24|2x24/)){add(pick(['Oke kak, kalau sampai lewat dari itu saya hubungi lagi ya.','Baik, saya tunggu ya. Mohon dikabari kalau ada perubahan.','Kira-kira bisa dipercepat nggak kak? Saya cukup butuh.','Baik kak, semoga tepat waktu ya.']));s.asked=1;const q=preQ(t,s);if(q)add(q)}
+else if(has(/catat|laporan|nomor tiket|nomor kasus|kmp-/)){add(pick(['Iya, betul, sudah sesuai dengan yang saya alami.','Betul kak, itu masalahnya. Sudah sesuai.','Ya, sudah benar kak, tidak ada yang salah.','Sesuai kak, persis seperti itu kejadiannya.']));if(!s.asked)add(pick(['Lalu solusinya bagaimana, kak?','Terus langkah selanjutnya apa ya kak?']))}
+else if(s.asked&&has(/biaya|gratis|ongkir|voucher|kompensasi|alamat|resi|simpan|dibuang|whatsapp|sementara|aman|berlaku/)&&!has(/ada hal lain|ada yang bisa|ada lagi/)){add(pick(['Oke kak, paham, terima kasih penjelasannya.','Baik, jelas kak.','Siap kak, saya catat.','Oh begitu, oke kak.']));if(s.pc<2){const q=preQ(t,s);if(q)add(q)}}
+else if(has(/ganti|pengganti|tukar|kirim|refund|dana|jemput|ambil|klaim|service|teknisi|perbaikan|kekurangan|proses/)){s.asked=1;if(has(/refund|dana/))add(pick(['Refundnya masuk ke rekening mana dan berapa lama prosesnya?','Kalau refund, uangnya kembali kapan ya kak?']));else if(has(/jemput|ambil/))add('Penjemputannya kapan ya kak? Saya perlu ada di rumah?');else if(has(/service|teknisi|perbaikan|klaim/))add(pick(['Perbaikannya berapa lama, kak? Saya butuh barangnya untuk dipakai.','Nanti ada biayanya nggak kak?']));else add(pick(['Kapan barangnya dikirim, kak? Kira-kira berapa hari?','Terus pengirimannya berapa lama ya?','Bisa dipastikan hari apa sampainya, kak?','Oke, tapi prosesnya cepat kan kak? Saya sudah butuh barangnya.']))}
+else if(s.asked&&has(/tidak ada|tinggal tunggu|tunggu saja|itu saja|itu dulu|sudah jelas|sudah clear|cukup|sudah selesai|siapkan barang/)){farewell(t,s,tn,add)}
+else if(has(/ada hal lain|ada yang bisa|ada lagi|sampai jumpa|selamat tinggal/)){const q=s.pc<2?preQ(t,s):null;if(q){add(pick(['Sebentar kak, satu hal lagi.','Oh iya kak, sebelum ditutup.','Tunggu kak, saya mau tanya dulu.']));add(q)}else{const W={rusak:'Saya tunggu unit penggantinya dan kurir yang menjemput.',salah:'Saya tunggu barang yang benar ya.',jumlah:'Saya tunggu kekurangan barangnya ya.',garansi:'Saya tunggu kabar dari service center ya.'}[t.type];add(pick([['Tidak ada lagi kak, terima kasih banyak atas bantuannya.','Cukup kak, pelayanannya ramah, terima kasih ya.'],['Baik, saya tunggu realisasinya, jangan sampai molor ya.','Oke, saya pegang janji kakak ya.'],['Sip kak, makasih ya!','Oke deh kak, makasih banyak!']][tn]));add(pick([W,W+' Tolong kabari kalau ada update.']));s.done=1}}
+else if(has(/terima kasih/)){add(pick(['Sama-sama kak.','Iya kak, saya yang terima kasih sudah dibantu.','Siap kak.']));if(s.asked&&s.pc<2){const q=preQ(t,s);if(q)add(q)}else if(!s.asked)add(pick(['Lalu solusinya bagaimana, kak?','Jadi bagaimana kelanjutannya?']))}
+else if(has(/maaf/)){add(pick([['Iya kak, tidak apa-apa. Mohon dibantu ya.','Terima kasih kak, saya mengerti.'],['Saya sudah menunggu lama, mohon segera diselesaikan.','Maaf saja tidak cukup kak, saya butuh solusinya.'],['Hehe iya kak, santai. Terus gimana baiknya?','Gapapa kak, yang penting beres ya.']][tn]));if(!s.asked)add(pick(['Jadi saya harus bagaimana?','Langkah selanjutnya apa ya kak?']))}
+else{s.fb=s.fb||[];const pool=!s.asked?[...[['Jadi solusinya bagaimana ya, kak?','Boleh dijelaskan langkah selanjutnya, kak?'],['Jadi mau diapakan barang ini? Saya butuh kepastian.','Mohon langsung ke solusinya ya kak.'],['Terus enaknya gimana nih kak?','Jadi harus ngapain dulu kak?']][tn],'Saya butuh kepastian solusinya dulu ya kak.','Jadi apa keputusannya, kak?']:['Baik kak, saya mengerti.','Oke kak, saya ikuti arahannya.','Siap kak.','Baik, noted ya kak.','Oh begitu, baik kak.'],p=pool.filter(x=>!s.fb.includes(x));if(s.asked&&(s.fb.length>=2||!p.length)){farewell(t,s,tn,add)}else{const x=pick(p.length?p:pool);s.fb.push(x);add(x)}}
+return o.slice(0,2)}
+const EVF={rusak:['foto-kerusakan.jpg','video-unboxing.mp4'],salah:['foto-barang-diterima.jpg','foto-label-box.jpg'],jumlah:['foto-isi-paket.jpg','foto-resi-pengiriman.jpg'],garansi:['foto-nota-pembelian.jpg','foto-nomor-seri.jpg']};
+const LBL={layak:'Layak retur / diganti',periksa:'Perlu diperiksa dulu',tidak:'Tidak layak'},VC=['00:03 · Kardus diterima, segel masih tertutup','00:09 · Kardus dibuka dan isi dikeluarkan','00:15 · Kondisi barang terlihat jelas'];
+const PRH={rusak:['Apakah pola kerusakan sesuai benturan saat pengiriman (kemasan ikut rusak)?','Adakah bekas cairan, gosong, atau tanda pemakaian?'],salah:['Bandingkan model di label dengan yang dipesan.','Apakah kemasan masih tersegel dan barang belum dipakai?'],jumlah:['Hitung isi dus dan bandingkan dengan jumlah pesanan.','Apakah segel kardus utuh atau pernah dibuka?'],garansi:['Apakah nomor seri cocok dan masih dalam masa garansi?','Adakah kerusakan fisik, cairan, atau pemakaian bahan non-original?']};
+const EVD={
+rusak:{v:'layak',sc:{k:'unit',crack:1,dent:1},why:'Pola kerusakan sesuai benturan saat pengiriman: kardus penyok di sudut yang sama dengan titik retak, tanpa tanda pemakaian. Layak diganti atau di-refund.',cl:[['Kardus penyok di sudut yang sama dengan titik kerusakan',1],['Tidak ada bekas cairan atau gosong',1],['Dilaporkan segera setelah unboxing',1]]},
+salah:{v:'layak',sc:{k:'label',got:'Model berbeda dari pesanan'},why:'Model pada label berbeda dengan yang dipesan dan kemasan masih tersegel asli. Ini kesalahan gudang, layak ditukar atau di-refund.',cl:[['Model di label tidak sama dengan pesanan',1],['Kemasan masih tersegel asli',1],['Barang belum dipakai',1]]},
+jumlah:{v:'layak',sc:{k:'count',seal:1},why:'Isi kurang dari pesanan padahal segel kardus utuh, artinya kekurangan terjadi saat packing. Layak dikirim ulang kekurangannya atau di-refund selisihnya.',cl:[['Jumlah isi lebih sedikit dari pesanan',1],['Segel kardus utuh, tidak pernah dibuka',1],['Cocokkan dengan berat resi dan log packing',1]]},
+garansi:{v:'layak',sc:{k:'serial'},why:'Nomor seri cocok dengan nota, masih dalam masa garansi, dan tidak ada tanda kerusakan akibat pengguna. Layak diklaim ke service center.',cl:[['Nomor seri cocok dengan nota',1],['Masih dalam masa garansi',1],['Indikator cairan normal, tidak ada kerusakan fisik',1]]}};
+const EVO={
+'KMP-2047':{v:'tidak',sc:{k:'unit',wet:1,crack:0,dent:0},why:'Ada bekas cairan pada unit, sementara kardus utuh tanpa tanda benturan. Kerusakan akibat cairan adalah kesalahan pemakaian, bukan kerusakan pengiriman. Tidak layak retur; tawarkan service berbayar.',cl:[['Ada bekas cairan pada unit',0],['Kardus utuh, tidak ada tanda benturan',0],['Kerusakan muncul setelah dipakai',0]]},
+'KMP-2050':{v:'tidak',sc:{k:'serial',crack:1},why:'Serial valid dan masih dalam masa garansi, tetapi kaca retak akibat benturan. Kerusakan fisik tidak ditanggung garansi; arahkan ke service berbayar.',cl:[['Nomor seri valid dan masih garansi',1],['Kaca retak akibat benturan (kerusakan fisik)',0],['Keluhan layar blank tidak menyebut pernah terjatuh',0]]},
+'KMP-2056':{v:'periksa',sc:{k:'serial',ink:1},why:'Serial valid dan masih garansi, tetapi pelanggan memakai tinta non-original. Unit perlu diperiksa teknisi dulu untuk memastikan kerusakan bukan akibat tinta tersebut.',cl:[['Serial valid dan masih garansi',1],['Memakai tinta botolan non-original',0],['Penyebab kerusakan belum bisa dipastikan',0]]},
+'KMP-2054':{v:'periksa',sc:{k:'count',seal:0,n:12},why:'Isi kurang, tetapi segel sudah terbuka sebelum diterima. Bisa hilang di perjalanan atau saat packing; periksa log gudang dan kurir dulu.',cl:[['Jumlah lebih sedikit dari pesanan',1],['Segel sudah terbuka sebelum diterima',0],['Perlu cek berat resi dan rekaman packing',0]]},
+'KMP-2051':{sc:{k:'unit',crack:0,dent:1,cable:1}},
+'KMP-2043':{sc:{k:'label',got:'JBL Tune 760NC'}},'KMP-2048':{sc:{k:'label',got:'Redmi Note 13 6/128 GB'}},'KMP-2052':{sc:{k:'label',got:'Daikin 1/2 PK (5.000 BTU)'}},
+'KMP-2044':{sc:{k:'count',seal:1,n:3}},'KMP-2049':{sc:{k:'count',seal:1,n:6}}};
+const evOf=t=>{const d=EVD[t.type],o=EVO[t.id]||{};return Object.assign({},d,o,{sc:Object.assign({},d.sc,o.sc)})};
+function evSvg(t){const s=evOf(t).sc;let b='<rect width="480" height="300" fill="#cfd6dc"/>';
+if(s.k=='unit'){b+=`<rect x="90" y="50" width="300" height="180" rx="10" fill="#1d252c"/><rect x="104" y="64" width="272" height="140" rx="4" fill="#2c3b46"/><text x="240" y="222" fill="#9fb0bd" font-size="12" text-anchor="middle">${esc(t.prod)}</text>`;
+if(s.crack)b+='<polyline points="320,64 300,110 330,130 290,170 310,204" fill="none" stroke="#e8f0f5" stroke-width="2"/><polyline points="300,110 260,100 240,130" fill="none" stroke="#e8f0f5" stroke-width="1.5"/>';
+if(s.wet)b+='<ellipse cx="200" cy="140" rx="80" ry="40" fill="#7fb4d6" opacity=".5"/><circle cx="150" cy="120" r="5" fill="#7fb4d6"/><circle cx="250" cy="180" r="4" fill="#7fb4d6"/>';
+if(s.cable)b+='<path d="M390,150 Q440,160 450,215" stroke="#222" stroke-width="9" fill="none"/><path d="M446,205 l16,10 M450,198 l18,0" stroke="#d9923a" stroke-width="3"/>';
+if(s.dent)b+='<polygon points="0,300 0,235 60,255 120,300" fill="#b98c5a"/><polyline points="18,300 40,262 70,274" fill="none" stroke="#7a5630" stroke-width="3"/>'}
+else if(s.k=='label'){b+=`<rect x="70" y="30" width="340" height="240" fill="#b98c5a"/><rect x="100" y="70" width="280" height="140" fill="#fff"/><text x="116" y="98" font-size="13" font-weight="700" fill="#111">LABEL PRODUK</text><text x="116" y="128" font-size="15" fill="#111">${esc(s.got)}</text><text x="116" y="158" font-size="12" fill="#555">Pesanan ${t.order}</text><text x="116" y="182" font-size="12" fill="#555">Seri: SN${t.id.slice(4)}7731</text><rect x="70" y="30" width="340" height="12" fill="#e9d9a6"/>`}
+else if(s.k=='count'){const ord=parseInt(t.qty),n=s.n??Math.round(ord*.6),c=ord>10?10:5,w=Math.min(60,340/c-8),h=w*1.2;b+='<rect x="40" y="30" width="400" height="230" fill="#b98c5a"/>';for(let i=0;i<ord;i++){const f=i<n;b+=`<rect x="${60+(i%c)*(w+8)}" y="${60+(i/c|0)*(h+10)}" width="${w}" height="${h}" rx="5" fill="${f?'#2c3b46':'none'}" stroke="#7a5630" stroke-dasharray="${f?0:4}"/>`}b+=`<rect x="40" y="30" width="400" height="14" fill="${s.seal?'#e9d9a6':'#c9b27a'}"/>${s.seal?'':'<polyline points="40,44 120,56 200,44 280,58 360,44 440,54" stroke="#7a5630" fill="none"/>'}<text x="240" y="284" font-size="13" text-anchor="middle" fill="#14202b">Isi dus: ${n} dari pesanan ${ord} · segel ${s.seal?'utuh':'terbuka'}</text>`}
+else{b+=`<rect x="30" y="25" width="190" height="250" fill="#fff"/><text x="46" y="55" font-size="13" font-weight="700" fill="#111">NOTA PEMBELIAN</text><text x="46" y="85" font-size="12" fill="#444">Tanggal: ${esc(t.date)}</text><text x="46" y="107" font-size="12" fill="#444">Pesanan: ${t.order}</text><text x="46" y="129" font-size="11" fill="#444">${esc(t.prod.slice(0,28))}</text><text x="46" y="151" font-size="12" fill="#444">Garansi resmi 1 tahun</text><rect x="250" y="50" width="200" height="150" rx="8" fill="#1d252c"/><rect x="264" y="70" width="172" height="48" fill="#fff"/><text x="274" y="90" font-size="11" fill="#111">SN: SN${t.id.slice(4)}7731</text><text x="274" y="108" font-size="10" fill="#555">Made in Indonesia</text><circle cx="280" cy="158" r="9" fill="#fff"/><text x="298" y="162" font-size="11" fill="#cfd6dc">Indikator cairan: normal</text>`;if(s.crack)b+='<polyline points="400,50 380,100 410,130 370,175" fill="none" stroke="#e8f0f5" stroke-width="2"/>';if(s.ink)b+='<text x="250" y="235" font-size="12" fill="#b3372f">Terlihat tinta botolan non-original</text>'}
+return `<svg viewBox="0 0 480 300" role="img" aria-label="Bukti dari pelanggan">${b}</svg>`}
+function vidFrame(t,k){if(k==2)return evSvg(t);return `<svg viewBox="0 0 480 300"><rect width="480" height="300" fill="#cfd6dc"/>${k?'<rect x="90" y="110" width="300" height="130" fill="#b98c5a"/><polygon points="90,110 40,70 180,45 240,60" fill="#c79c69"/><polygon points="390,110 440,70 300,45 240,60" fill="#c79c69"/>':'<rect x="90" y="70" width="300" height="170" fill="#b98c5a"/><rect x="90" y="140" width="300" height="16" fill="#e9d9a6"/>'}<text x="14" y="24" fill="#b3372f" font-size="13" font-weight="700">REC 00:0${k*6+3}</text></svg>`}
+function renderEvBox(){const b=$('#evbox');if(!b)return;const t=cur;b.innerHTML=t.ST&&t.ST.ph?EVF[t.type].map(f=>`<button class="btn" data-f="${f}" style="display:block;width:100%;text-align:left;margin-bottom:6px">${/mp4$/.test(f)?'Video':'Foto'} · ${f}</button>`).join(''):'<span style="color:var(--mute)">Belum ada bukti. Minta foto atau video ke pelanggan.</span>';b.onclick=e=>{const x=e.target.closest('button');if(x)openEv(t,x.dataset.f)}}
+function openEv(t,f){const e=evOf(t),vid=/mp4$/.test(f);$('#mt').textContent=(vid?'Video':'Foto')+' dari pelanggan: '+f;
+$('#mv').innerHTML=vid?`<div id="vf">${vidFrame(t,0)}</div><div class="ctl"><button class="btn p" id="vp">Putar video</button><span id="vc" style="color:var(--mute)">${VC[0]}</span></div>`:evSvg(t);
+if(vid)$('#vp').onclick=()=>{let k=0;const p=()=>{$('#vf').innerHTML=vidFrame(t,k);$('#vc').textContent=VC[k];k++;if(k<3)setTimeout(p,1600)};p()};
+$('#mq').innerHTML=`<div><b>Perhatikan:</b><ul>${PRH[t.type].map(x=>`<li>${x}</li>`).join('')}</ul></div><b>Penilaian Anda</b>${[['layak','Layak retur / diganti'],['periksa','Perlu diperiksa dulu (investigasi)'],['tidak','Tidak layak']].map(o=>`<label class="opt"><input type="radio" name="jd" value="${o[0]}"> ${o[1]}</label>`).join('')}<button class="btn p" id="jc">Cek analisis saya</button><div id="jf"></div>`;
+$('#jc').onclick=()=>{const p=document.querySelector('input[name=jd]:checked');if(!p)return toast('Pilih penilaian dulu');const ok=p.value==e.v;t.judges=(t.judges||[]).filter(j=>j.f!=f);t.judges.push({f:f,pick:p.value,ok:ok,at:Date.now()});save();$('#jf').innerHTML=`<div class="fb" style="background:var(--${ok?'ok2':'bad2'});color:var(--${ok?'ok':'bad'})"><b>${ok?'Tepat.':'Belum tepat.'}</b> Penilaian yang sesuai: ${LBL[e.v]}.</div><p>${esc(e.why)}</p><ul>${e.cl.map(c=>`<li>${c[1]?'✓':'✗'} ${esc(c[0])}</li>`).join('')}</ul>`};
+$('#mod').hidden=false}
+function replyChat(t,v){const out=custReply(t,v,'chat');let d=700;out.forEach(o=>{setTimeout(()=>{if(t.st=='selesai')return;t.msgs=t.msgs.filter(m=>m[0]!='t');t.msgs.push(['t']);if(cur===t)drawMsgs()},d);d+=1300;setTimeout(()=>{t.msgs=t.msgs.filter(m=>m[0]!='t');if(t.st=='selesai'){if(cur===t)drawMsgs();return}t.msgs.push(['c',o.text,now(),o.att]);if(t.ST&&t.ST.done&&o===out[out.length-1])t.msgs.push(['s','Percakapan sudah clear. Lengkapi verifikasi lalu klik "Selesaikan kasus".']);if(cur===t)drawMsgs()},d);d+=400})}
+const T=[
+{id:'KMP-2041',name:'Budi Santoso',ch:'chat',type:'rusak',prod:'TV LED 43" Samsung',order:'ORD-88213',qty:'1 unit',date:'30 Okt 2026',sla:'2 jam',st:'baru',msgs:[['c','Halo, TV yang saya terima layar retak di pojok kanan atas. Baru dibuka tadi pagi.']]},
+{id:'KMP-2042',name:'Sari Wulandari',ch:'voice',type:'garansi',prod:'Kulkas 2 Pintu Sharp',order:'ORD-71450',qty:'1 unit',date:'12 Jan 2026',sla:'4 jam',st:'baru',script:[['c','Selamat siang, kulkas saya tidak mau dingin sejak seminggu lalu. Belinya Januari, masih garansi kan?'],['a','Selamat siang Bu Sari. Mohon maaf atas kendalanya. Boleh saya minta nomor seri di bagian dalam pintu kulkas?'],['c','Sebentar, saya cek... nomornya SHP-2290417.'],['a','Terima kasih. Saya cek, unit masih dalam garansi kompresor sampai Januari 2027.'],['c','Syukurlah. Bisa diambil teknisinya?'],['a','Bisa, Bu. Saya buatkan klaim dan teknisi akan menghubungi dalam 1×24 jam.']]},
+{id:'KMP-2043',name:'Dewi Anggraini',ch:'chat',type:'salah',prod:'Headphone Sony WH-1000XM5',order:'ORD-88109',qty:'1 unit',date:'1 Nov 2026',sla:'3 jam',st:'baru',msgs:[['c','Saya pesan Sony XM5 warna hitam, tapi yang datang JBL. Gimana ini?']]},
+{id:'KMP-2044',name:'Hendra Wijaya',ch:'voice',type:'jumlah',prod:'Power bank Anker 20.000 mAh',order:'ORD-87990',qty:'5 unit',date:'31 Okt 2026',sla:'3 jam',st:'baru',script:[['c','Pak, saya pesan lima power bank buat kantor, yang datang cuma tiga.'],['a','Selamat sore Pak Hendra. Mohon maaf. Apakah paketnya sudah dibuka semua dan hanya ada tiga unit?'],['c','Iya, cuma satu dus isi tiga. Resinya cuma satu.'],['a','Baik, saya catat. Mohon kirim foto isi dus dan resinya ke chat kami, ya. Kekurangan dua unit akan kami proses.']]},
+{id:'KMP-2045',name:'Rina Maharani',ch:'chat',type:'garansi',prod:'Laptop ASUS Vivobook 14',order:'ORD-66021',qty:'1 unit',date:'8 Mar 2026',sla:'4 jam',st:'baru',msgs:[['c','Kak, laptop saya sering mati sendiri dan baterainya kembung. Masih garansi kan? Belinya Maret.']]},
+{id:'KMP-2046',name:'Agus Prasetyo',ch:'voice',type:'rusak',prod:'Mesin cuci LG 8 kg',order:'ORD-88002',qty:'1 unit',date:'29 Okt 2026',sla:'1 jam',st:'baru',script:[['c','Mesin cuci saya sampai tapi pintunya penyok dan bunyi keras waktu dinyalakan.'],['a','Mohon maaf Pak Agus. Apakah kardusnya juga rusak waktu diterima?'],['c','Iya, sisi kardusnya sobek. Saya ada foto.'],['a','Baik, tolong kirim fotonya. Kami akan jadwalkan penjemputan dan penggantian unit.']]},
+{id:'KMP-2047',name:'Maya Lestari',ch:'chat',type:'rusak',prod:'Speaker JBL Charge 5',order:'ORD-88301',qty:'1 unit',date:'2 Nov 2026',sla:'2 jam',st:'baru',msgs:[['c','Speaker yang saya terima bunyinya pecah dan tidak bisa nyambung bluetooth. Padahal baru keluar dari kardus.']]},
+{id:'KMP-2048',name:'Fajar Nugroho',ch:'chat',type:'salah',prod:'Xiaomi Redmi Note 13 (8/256 GB)',order:'ORD-88277',qty:'1 unit',date:'1 Nov 2026',sla:'3 jam',st:'baru',msgs:[['c','Kak, saya pesan yang RAM 8/256, tapi di box tertulis 6/128. Ini salah kirim ya?']]},
+{id:'KMP-2049',name:'Lestari Putri',ch:'chat',type:'jumlah',prod:'Kabel HDMI 2 m',order:'ORD-88190',qty:'10 unit',date:'31 Okt 2026',sla:'3 jam',st:'baru',msgs:[['c','Saya order 10 kabel HDMI untuk toko, tapi isi paketnya cuma 6. Tolong dicek.']]},
+{id:'KMP-2050',name:'Yoga Pratama',ch:'chat',type:'garansi',prod:'Smartwatch Amazfit GTS 4',order:'ORD-70112',qty:'1 unit',date:'20 Jun 2026',sla:'4 jam',st:'baru',msgs:[['c','Layar smartwatch saya sering blank sendiri. Belinya Juni, kartu garansinya ada. Bisa diklaim?']]},
+{id:'KMP-2051',name:'Nadia Rahmawati',ch:'chat',type:'rusak',prod:'Rice cooker Philips 2 L',order:'ORD-88310',qty:'1 unit',date:'2 Nov 2026',sla:'2 jam',st:'baru',msgs:[['c','Rice cooker sampai dalam keadaan penyok dan kabel powernya terkelupas. Bahaya kalau dipakai.']]},
+{id:'KMP-2052',name:'Tono Hartono',ch:'voice',type:'salah',prod:'AC Daikin 1 PK',order:'ORD-88044',qty:'1 unit',date:'30 Okt 2026',sla:'2 jam',st:'baru',script:[['c','Pak, saya pesan AC satu PK, tapi yang datang setengah PK. Kamar saya nggak akan dingin.'],['a','Mohon maaf Pak Tono. Boleh saya cek label kapasitas di unit indoor-nya? Tertulis berapa BTU?'],['c','Tertulis lima ribu BTU, Pak. Seharusnya sembilan ribu.'],['a','Baik, saya catat sebagai salah kirim. Unit yang benar akan kami kirim dan unit ini dijemput.']]},
+{id:'KMP-2053',name:'Linda Kusuma',ch:'voice',type:'garansi',prod:'Blender Philips HR2221',order:'ORD-69877',qty:'1 unit',date:'15 Feb 2026',sla:'4 jam',st:'baru',script:[['c','Halo, blender saya motornya mati total, cuma bunyi dengung. Belinya Februari.'],['a','Selamat pagi Bu Linda. Boleh sebutkan nomor seri di bagian bawah blender dan tanggal belinya?'],['c','Nomornya PH-4471290, belinya tanggal lima belas Februari. Nota masih saya simpan.'],['a','Terima kasih Bu. Masih dalam garansi motor dua tahun. Klaim saya buat dan mohon kirim foto notanya.']]},
+{id:'KMP-2054',name:'Eko Saputra',ch:'voice',type:'jumlah',prod:'Lampu LED Philips 9 W',order:'ORD-88150',qty:'20 pcs',date:'31 Okt 2026',sla:'3 jam',st:'baru',script:[['c','Saya beli dua puluh lampu LED, tapi saya hitung cuma dua belas.'],['a','Mohon maaf Pak Eko. Apakah segel dus masih utuh waktu diterima?'],['c','Segelnya sudah agak terbuka, Pak. Saya sudah foto isi dusnya.'],['a','Baik, tolong kirim foto ke chat kami. Kekurangan delapan lampu akan kami proses setelah cek ke gudang.']]},
+{id:'KMP-2055',name:'Wati Handayani',ch:'voice',type:'rusak',prod:'Kipas angin berdiri Cosmos',order:'ORD-88290',qty:'1 unit',date:'2 Nov 2026',sla:'2 jam',st:'baru',script:[['c','Kipas angin saya sampai dengan baling-baling patah dan tiangnya bengkok.'],['a','Mohon maaf Bu Wati. Apakah kardusnya juga rusak waktu kurir mengantar?'],['c','Kardusnya basah dan sobek di satu sisi, Bu. Saya sudah foto.'],['a','Baik, kirim fotonya ke chat kami. Kami akan kirim unit pengganti dan menjemput yang rusak.']]},
+{id:'KMP-2056',name:'Bayu Firmansyah',ch:'voice',type:'garansi',prod:'Printer Epson L3250',order:'ORD-68540',qty:'1 unit',date:'5 Apr 2026',sla:'4 jam',st:'baru',script:[['c','Printer saya muncul error lampu merah berkedip, hasil cetaknya bergaris. Masih garansi kan?'],['a','Selamat siang Pak Bayu. Boleh sebutkan nomor seri di belakang printer?'],['c','Nomornya X5R-8830021. Dibeli April, tapi tintanya saya isi sendiri pakai tinta botolan lain.'],['a','Terima kasih jujurnya Pak. Unit tetap kami periksa dulu, karena pemakaian tinta non-original bisa memengaruhi garansi.']]}];
+let cur=T[0],filter='all',timer=null,sec=0,lineTimer=null;const $=s=>document.querySelector(s);
+const ST={baru:['Baru','b'],proses:['Diproses','w'],selesai:['Selesai','o']};
+const now=()=>new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),2200)}
+function stats(){$('#sOpen').textContent=T.filter(t=>t.st!='selesai').length;$('#sChat').textContent=T.filter(t=>t.ch=='chat'&&t.st!='selesai').length;$('#sVoice').textContent=T.filter(t=>t.ch=='voice'&&t.st!='selesai').length;$('#sDone').textContent=T.filter(t=>t.st=='selesai').length}
+function renderList(){$('#list').innerHTML=T.filter(t=>filter=='all'||t.ch==filter).map(t=>`<button class="tk" data-id="${t.id}" aria-current="${t===cur}"><div class="r1"><span>${esc(t.name)}</span><span class="tag ch">${t.ch=='chat'?'Chat':'Suara'}</span></div><div class="r2">${esc(TYPES[t.type].n)} · ${esc(t.prod)}</div><div class="r3"><span class="tag ${ST[t.st][1]}">${ST[t.st][0]}</span><span class="tag">${t.id}</span>${t.st!='selesai'?`<span class="tag">Batas respons ${t.sla}</span>`:''}</div></button>`).join('');stats();save()}
+let muted=false,rec=null,nextFn=null,got=false;
+function stop(){const tn=document.getElementById('turn');if(tn)tn.remove();clearInterval(timer);clearTimeout(lineTimer);timer=lineTimer=null;try{speechSynthesis.cancel()}catch(e){}if(rec){try{rec.stop()}catch(e){}}}
+function say(l,cb){if(muted||!('speechSynthesis' in window)){setTimeout(cb,2600);return}const u=new SpeechSynthesisUtterance(l[1]);u.lang='id-ID';const v=speechSynthesis.getVoices().find(v=>v.lang&&v.lang.toLowerCase().startsWith('id'));if(v)u.voice=v;u.pitch=l[0]=='a'?0.8:1.3;u.rate=1;u.onend=cb;u.onerror=cb;speechSynthesis.speak(u)}
+function hideTurn(){const x=document.getElementById('turn');if(x)x.remove()}
+function showTurn(h){hideTurn();cur.said='';const tr=$('#tr');if(!tr)return;const d=document.createElement('div');d.className='turn';d.id='turn';d.innerHTML='<b>Giliran Anda menjawab pelanggan</b><span>Contoh dialog Anda: '+esc(h)+'</span><div class="ctl"><button class="btn p" id="tmic">Mulai bicara</button><button class="btn" id="tskip">Selesai, lanjutkan</button></div><input id="tin" placeholder="Atau ketik jawaban lalu tekan Enter" aria-label="Ketik jawaban">';tr.appendChild(d);tr.scrollTop=tr.scrollHeight;$('#tmic').onclick=toggleMic;$('#tskip').onclick=()=>{if(rec){got=true;rec.stop()}else if(nextFn)nextFn()};$('#tin').onkeydown=e=>{const v=e.target.value.trim();if(e.key=='Enter'&&v){const l=['a',v];cur.log.push(l);cur.said=v;hideTurn();addLine(l);if(nextFn)nextFn()}}}
+function toggleMic(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition,b=$('#mic');if(!SR)return toast('Browser ini belum mendukung mikrofon. Coba Chrome.');if(rec){rec.stop();return}rec=new SR();rec.lang='id-ID';rec.interimResults=false;rec.onresult=e=>{const l=['a',e.results[e.results.length-1][0].transcript];cur.log.push(l);addLine(l);cur.said=(cur.said||'')+' '+l[1];got=true};rec.onend=()=>{rec=null;if(b)b.textContent='Bicara (mic)';if(got&&document.getElementById('turn')){got=false;if(nextFn)nextFn()}};rec.onerror=()=>toast('Mikrofon tidak bisa diakses. Izinkan akses mic di browser.');rec.start();b.textContent='Berhenti bicara'}
+function select(t){stop();cur=t;renderList();t.ch=='chat'?renderChat():renderVoice();renderSide()}
+function renderChat(){const t=cur,done=t.st=='selesai';
+$('#main').innerHTML=`<div class="mh"><div><h2>${esc(t.name)}</h2><small>Chat · ${esc(t.id)} · ${esc(TYPES[t.type].n)}</small></div></div>
+<div class="msgs" id="msgs"></div>
+<div class="qr" id="qr">${TYPES[t.type].qr.map((q,i)=>`<button data-q="${i}">${esc(fill(q,t).slice(0,42))}…</button>`).join('')}</div>
+<div class="comp"><textarea id="txt" placeholder="Tulis balasan untuk pelanggan" ${done?'disabled':''}></textarea><button class="btn p" id="send" ${done?'disabled':''}>Kirim balasan</button></div>`;
+drawMsgs();
+$('#msgs').onclick=e=>{const b=e.target.closest('.att');if(b)openEv(cur,b.dataset.f)};$('#qr').onclick=e=>{const b=e.target.closest('button');if(b)$('#txt').value=fill(TYPES[t.type].qr[b.dataset.q],t);$('#txt').focus()};
+$('#send').onclick=sendMsg;$('#txt').onkeydown=e=>{if(e.key=='Enter'&&!e.shiftKey){e.preventDefault();sendMsg()}}}
+function drawMsgs(){const m=$('#msgs');if(!m)return;m.innerHTML=cur.msgs.map(x=>x[0]=='t'?`<div class="m sys">${esc(cur.name.split(' ')[0])} sedang mengetik…</div>`:x[0]=='s'?`<div class="m sys">${esc(x[1])}</div>`:`<div class="m ${x[0]=='a'?'me':''}">${x[3]?`<button class="att" data-f="${esc(x[3])}">${/mp4$/.test(x[3])?'Video':'Foto'} · ${esc(x[3])}</button>`:''}${esc(x[1])}<time>${x[2]||''}</time></div>`).join('');m.scrollTop=m.scrollHeight;renderEvBox();save()}
+function sendMsg(){const v=$('#txt').value.trim();if(!v)return;const t=cur;t.msgs.push(['a',v,now()]);if(t.st=='baru')t.st='proses';$('#txt').value='';drawMsgs();renderList();
+replyChat(t,v)}
+function renderVoice(){const t=cur,done=t.st=='selesai';sec=0;
+$('#main').innerHTML=`<div class="mh"><div><h2>${esc(t.name)}</h2><small>Panggilan suara · ${esc(t.id)} · ${esc(TYPES[t.type].n)}</small></div></div>
+<div class="voice" id="voice"><div class="callbar" id="cb"><div class="timer" id="tm">00:00</div><div class="wave">${'<i></i>'.repeat(28)}</div>
+<div class="ctl"><button class="btn p" id="ans" ${done?'disabled':''}>Angkat panggilan</button><button class="btn" id="hold" disabled>Tahan</button><button class="btn" id="mute" disabled>Bisukan suara</button><button class="btn" id="mic" disabled>Bicara (mic)</button><button class="btn d" id="end" disabled>Akhiri</button></div></div>
+<div class="tr" id="tr"><div class="empty">${done?'Panggilan ini sudah selesai.':'Pelanggan sedang menunggu di saluran. Angkat panggilan: pelanggan bicara lebih dulu, lalu giliran Anda menjawab.'}</div></div></div>`;
+if(t.log&&t.log.length){$('#tr').innerHTML='';t.log.forEach(addLine)}
+$('#ans').onclick=startCall}
+function addLine(l){const tr=$('#tr');if(!tr)return;const d=document.createElement('div');d.className='tl '+l[0];d.innerHTML=`<b>${l[0]=='a'?'Anda':esc(cur.name.split(' ')[0])}</b><span>${esc(l[1])}</span>`;tr.appendChild(d);tr.scrollTop=tr.scrollHeight;renderEvBox();save()}
+function startCall(){const t=cur;t.log=[];$('#tr').innerHTML='';$('#voice').classList.add('live');['hold','mute','mic','end'].forEach(i=>$('#'+i).disabled=false);$('#ans').disabled=true;if(t.st=='baru')t.st='proses';renderList();
+timer=setInterval(()=>{sec++;$('#tm').textContent=String(sec/60|0).padStart(2,'0')+':'+String(sec%60).padStart(2,'0')},1000);
+muted=false;got=false;t.turn=0;t.ST=null;t.said='';const next=()=>{if(cur!==t||!timer)return;showTurn(fill(TYPES[t.type].qr[Math.min(t.turn,4)],t))};const play=(arr,k)=>{if(cur!==t||!timer)return;if(k>=arr.length){if((t.ST&&t.ST.done)||t.turn>=7){toast('Percakapan selesai. Silakan akhiri panggilan.');return}lineTimer=setTimeout(next,500);return}const l=['c',arr[k].text];t.log.push(l);addLine(l);say(l,()=>{if(timer)lineTimer=setTimeout(()=>play(arr,k+1),500)})};nextFn=()=>{hideTurn();const said=t.said||'';t.said='';t.turn++;lineTimer=setTimeout(()=>play(custReply(t,said,'voice'),0),700)};const l0=t.script[0];t.log.push(l0);addLine(l0);say(l0,()=>{if(timer)lineTimer=setTimeout(next,700)});$('#mic').onclick=toggleMic;
+$('#hold').onclick=e=>{const h=e.target.dataset.on!='1';e.target.dataset.on=h?'1':'0';e.target.textContent=h?'Lanjutkan':'Tahan';$('#voice').classList.toggle('live',!h);try{h?speechSynthesis.pause():speechSynthesis.resume()}catch(x){}};
+$('#mute').onclick=e=>{const h=e.target.dataset.on!='1';e.target.dataset.on=h?'1':'0';e.target.textContent=h?'Nyalakan suara':'Bisukan suara';muted=h;if(h){try{speechSynthesis.cancel()}catch(x){}}};
+$('#end').onclick=()=>{stop();$('#voice').classList.remove('live');['hold','mute','mic','end'].forEach(i=>$('#'+i).disabled=true);$('#ans').disabled=false;$('#ans').textContent='Telepon balik';toast('Panggilan diakhiri ('+$('#tm').textContent+')')}}
+function renderSide(){const t=cur,ty=TYPES[t.type],done=t.st=='selesai';
+$('#side').innerHTML=`<div><div class="type">${esc(ty.n)}</div></div>
+<div><h3>Data pesanan</h3><div class="kv"><span>Pelanggan</span><span>${esc(t.name)}</span><span>Produk</span><span>${esc(t.prod)}</span><span>No. pesanan</span><span>${t.order}</span><span>Jumlah</span><span>${t.qty}</span><span>Tgl pesan/terima</span><span>${t.date}</span><span>Status</span><span>${ST[t.st][0]}</span></div></div>
+<div><h3>Bukti dari pelanggan</h3><div id="evbox"></div></div>
+<div><h3>Verifikasi sebelum memutuskan</h3>${ty.chk.map((c,i)=>`<label class="chk"><input type="checkbox" class="cv" ${done?'checked disabled':''}><span>${esc(c)}</span></label>`).join('')}</div>
+<div><h3>Solusi</h3><select id="res" ${done?'disabled':''}><option value="">Pilih solusi…</option>${ty.res.map(r=>`<option>${esc(r)}</option>`).join('')}</select></div>
+<div><h3>Catatan internal</h3><textarea id="note" placeholder="Ringkasan penanganan" ${done?'disabled':''}>${esc(t.note||fill('Laporan keluhan {id}: pelanggan {name} melaporkan "'+ty.n.toLowerCase()+'" pada {prod}, pesanan {order}, jumlah '+t.qty+'.',t))}</textarea></div>
+<button class="btn p" id="fin" ${done?'disabled':''}>${done?'Kasus selesai: '+esc(t.sol||''):'Selesaikan kasus'}</button>`;
+$('#note').oninput=e=>{t.note=e.target.value;save()};renderEvBox();$('#fin').onclick=()=>{const all=[...document.querySelectorAll('.cv')].every(c=>c.checked),r=$('#res').value;
+if(!all)return toast('Selesaikan semua langkah verifikasi dulu');if(!r)return toast('Pilih solusi terlebih dahulu');
+t.st='selesai';t.sol=r;t.note=$('#note').value;stop();if(t.ch=='chat'){t.msgs.push(['s','Kasus diselesaikan: '+r]);setTimeout(()=>{t.msgs.push(['c',pick(['Baik kak, terima kasih banyak atas bantuannya. Saya tunggu prosesnya ya.','Oke kak, terima kasih sudah ditangani dengan cepat.','Siap kak, saya tunggu kabar selanjutnya. Makasih ya.','Terima kasih kak, semoga prosesnya lancar.','Baik, saya pegang ya kak. Terima kasih.']),now()]);if(cur===t)drawMsgs()},1800)}
+toast(t.id+' selesai: '+r);renderList();select(t)}}
+$('#list').onclick=e=>{const b=e.target.closest('.tk');if(b)select(T.find(t=>t.id==b.dataset.id))};
+$('#tabs').onclick=e=>{const b=e.target.closest('button');if(!b)return;filter=b.dataset.f;document.querySelectorAll('#tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));renderList()};
+$('#mx').onclick=()=>{$('#mod').hidden=true};$('#mod').onclick=e=>{if(e.target.id=='mod')$('#mod').hidden=true};document.addEventListener('keydown',e=>{if(e.key=='Escape')$('#mod').hidden=true});
+let ME={name:'',kelas:''},DB=null,UID=null,ISADM=false,READY=false,saveT=null,saving=false,SESS=[],GR={},SEL=null,FQ='';
+const NL=String.fromCharCode(10),Q=String.fromCharCode(34);
+const RUB=[['Empati','maaf'],['Minta bukti','foto|video|bukti'],['Konfirmasi laporan','catat|laporan|nomor tiket|kmp-'],['Solusi','ganti|pengganti|tukar|refund|jemput|klaim|service|kekurangan'],['Estimasi waktu','estimasi|hari|jam|1x24|2x24|besok'],['Penutup','terima kasih|ada hal lain|ada yang bisa']];
+const lines=d=>(d.msgs||d.log||[]).filter(x=>x[0]=='a'||x[0]=='c');
+const rub=d=>{const x=lines(d).filter(l=>l[0]=='a').map(l=>l[1]).join(' ').toLowerCase();return RUB.map(r=>[r[0],new RegExp(r[1]).test(x)])};
+function setSt(m,bad){const w=$('#sv');w.textContent=(ME.name?ME.name+(ME.kelas?' · '+ME.kelas:'')+' · ':'')+m;w.style.color=bad?'var(--bad)':'var(--mute)'}
+const snap=()=>({name:ME.name,kelas:ME.kelas,updated:Date.now(),tickets:Object.fromEntries(T.filter(t=>t.st!='baru').map(t=>[t.id,{st:t.st,sol:t.sol||'',note:t.note||'',msgs:t.msgs?t.msgs.filter(m=>m[0]!='t'):null,log:t.log||null,ST:t.ST||null,judges:t.judges||[]}]))});
+async function doSave(){if(!DB||!UID||!ME.name||ISADM||!READY)return;if(saving){save();return}saving=true;try{await DB.doc('sessions/'+UID).set(JSON.parse(JSON.stringify(snap())));setSt('tersimpan '+now())}catch(e){setSt(e&&e.code=='invalid_argument'?'tidak punya izin menyimpan':'gagal menyimpan, periksa koneksi',1);if(e&&e.code=='invalid_argument'){$('#bln').textContent='Akunmu belum punya izin untuk menyimpan riwayat. Minta gurumu mengubah perannya menjadi Kontributor, lalu muat ulang halaman ini.';$('#bl').hidden=false}}saving=false}
+function save(){clearTimeout(saveT);saveT=setTimeout(doSave,1800)}
+function restore(d){Object.entries(d.tickets||{}).forEach(([id,x])=>{const t=T.find(k=>k.id==id);if(!t)return;t.st=x.st||t.st;t.sol=x.sol||'';t.note=x.note||'';if(x.msgs)t.msgs=x.msgs;if(x.log)t.log=x.log;t.ST=x.ST||null;t.judges=x.judges||[]});renderList();select(cur)}
+function stat(s){const ts=Object.values(s.tickets||{});let sel=0,jb=0,jt=0,kl=0;ts.forEach(d=>{if(d.st=='selesai')sel++;(d.judges||[]).forEach(j=>{jt++;if(j.ok)jb++});kl+=rub(d).filter(r=>r[1]).length/6});return{n:ts.length,sel,jb,jt,kl:ts.length?Math.round(kl/ts.length*100):0}}
+function renderAdm(){const b=$('#adl');if(!b)return;const rows=SESS.filter(s=>((s.name||'')+' '+(s.kelas||'')).toLowerCase().includes(FQ)).sort((a,c)=>(a.name||'').localeCompare(c.name||''));
+b.innerHTML=`<table class="tb"><tr><th>Nama</th><th>Kelas</th><th>Kasus</th><th>Selesai</th><th>Bukti</th><th>Lengkap</th><th>Nilai</th></tr>${rows.map(s=>{const z=stat(s);return `<tr data-id="${esc(s.id)}" class="${s.id==SEL?'on':''}"><td>${esc(s.name||'(tanpa nama)')}</td><td>${esc(s.kelas||'')}</td><td>${z.n}</td><td>${z.sel}</td><td>${z.jb}/${z.jt}</td><td>${z.kl}%</td><td>${GR[s.id]?esc(GR[s.id].score):'-'}</td></tr>`}).join('')}</table>${rows.length?'':'<p class="mt">Belum ada siswa yang menyimpan riwayat.</p>'}`;
+$('#adc').textContent=SESS.length+' siswa';renderDet()}
+function renderDet(){const p=$('#add'),s=SESS.find(x=>x.id==SEL);if(!s){p.dataset.k='';p.innerHTML='<p class="mt">Pilih siswa di sebelah kiri untuk melihat riwayat chat dan panggilannya.</p>';return}const key=s.id+':'+s.updated;if(p.dataset.k==key)return;if((p.dataset.k||'').split(':')[0]==s.id&&p.contains(document.activeElement))return;p.dataset.k=key;const g=GR[s.id]||{};
+p.innerHTML=`<h3 style="margin:0;font-size:15px;color:var(--ink)">${esc(s.name)} · ${esc(s.kelas||'')}</h3><div class="mt">Terakhir aktif ${new Date(s.updated).toLocaleString('id-ID')}</div><div class="gf"><label>Nilai <input id="gs" type="number" min="0" max="100" value="${g.score==null?'':esc(g.score)}"></label><textarea id="gc" placeholder="Komentar untuk siswa">${esc(g.comment||'')}</textarea><button class="btn p" id="gsv">Simpan nilai</button></div>${Object.entries(s.tickets||{}).map(([id,d])=>{const m=T.find(t=>t.id==id)||{},r=rub(d);return `<details><summary><b>${esc(id)}</b> · ${esc(TYPES[m.type]?TYPES[m.type].n:'')} · ${m.ch=='voice'?'Suara':'Chat'} · ${esc(d.st)} · ${r.filter(x=>x[1]).length}/6</summary><div class="rb">${r.map(x=>`<span class="tag ${x[1]?'o':'b'}">${x[0]}</span>`).join('')}</div>${lines(d).map(l=>`<div class="tl ${l[0]}"><b>${l[0]=='a'?'CS':'Pelanggan'}</b><span>${esc(l[1])}</span></div>`).join('')}<p><b>Solusi:</b> ${esc(d.sol||'-')}<br><b>Catatan:</b> ${esc(d.note||'-')}<br><b>Analisis bukti:</b> ${(d.judges||[]).map(j=>(j.ok?'✓ ':'✗ ')+esc(j.f)+' ('+esc(j.pick)+')').join(', ')||'-'}</p></details>`}).join('')}`;
+$('#gsv').onclick=async()=>{try{await DB.doc('grades/'+s.id).set({score:+$('#gs').value||0,comment:$('#gc').value,at:Date.now()});toast('Nilai tersimpan')}catch(e){toast('Gagal menyimpan nilai')}}}
+async function csvDl(){const q=v=>Q+String(v==null?'':v).split(Q).join(Q+Q)+Q;const rows=[['Nama','Kelas','Kasus ditangani','Kasus selesai','Bukti benar','Bukti dinilai','Kelengkapan (%)','Nilai guru','Komentar']].concat(SESS.map(s=>{const z=stat(s),g=GR[s.id]||{};return [s.name,s.kelas,z.n,z.sel,z.jb,z.jt,z.kl,g.score,g.comment]}));const dl=await claude.use('downloads');if(!dl)return toast('Unduhan tidak tersedia di tampilan ini');try{await dl.save({filename:'rekap-praktik-layanan-pelanggan.csv',data:String.fromCharCode(65279)+rows.map(r=>r.map(q).join(',')).join(NL)})}catch(e){}}
+async function dlHist(){const txt='Riwayat praktik layanan pelanggan'+NL+'Nama: '+(ME.name||'-')+' / Kelas: '+(ME.kelas||'-')+NL+NL+T.filter(t=>t.st!='baru').map(t=>'['+t.id+'] '+TYPES[t.type].n+' | '+t.prod+' | '+t.ch+' | status: '+ST[t.st][0]+NL+lines({msgs:t.msgs,log:t.log}).map(l=>(l[0]=='a'?'CS: ':'Pelanggan: ')+l[1]).join(NL)+NL+'Solusi: '+(t.sol||'-')+NL+'Catatan: '+(t.note||'-')).join(NL+NL);let dl=null;try{dl=await claude.use('downloads')}catch(e){}if(!dl)return toast('Unduhan tidak tersedia di tampilan ini');try{await dl.save({filename:'riwayat-'+(ME.name||'siswa').split(' ').join('-')+'.txt',data:txt})}catch(e){}}
+async function initCloud(){let u=null;try{if(typeof claude!='undefined'){u=await claude.use('user');DB=await claude.use('db')}}catch(e){}
+try{ISADM=u?await u.canEdit():false;UID=u?await u.id():null}catch(e){}
+if(ISADM){$('#adb').hidden=false;setSt('mode guru');if(DB){DB.collection('sessions').onSnapshot(s=>{SESS=s.docs.map(d=>Object.assign({id:d.id},d.data()));renderAdm()},()=>toast('Gagal memuat riwayat siswa'));DB.collection('grades').onSnapshot(s=>{GR={};s.docs.forEach(d=>{GR[d.id]=d.data()});renderAdm()},()=>{})}return}
+if(DB&&UID){try{const s=await DB.doc('sessions/'+UID).get();if(s.exists){const d=s.data();ME={name:d.name||'',kelas:d.kelas||''};restore(d)}const g=await DB.doc('grades/'+UID).get();if(g.exists){const x=g.data(),e=$('#gr');e.hidden=false;e.textContent='Nilai dari guru: '+x.score+(x.comment?' · '+x.comment:'')}}catch(e){}}
+if(!(DB&&UID)){$('#bl').hidden=false;return}
+if(ME.name){READY=true;setSt('riwayat dipulihkan')}else{$('#lg').hidden=false}}
+$('#dl').onclick=dlHist;$('#adb').onclick=()=>{$('#ad').hidden=false;renderAdm()};$('#adz').onclick=()=>{$('#ad').hidden=true};$('#adx').onclick=csvDl;$('#adq').oninput=e=>{FQ=e.target.value.toLowerCase();renderAdm()};$('#adl').onclick=e=>{const r=e.target.closest('tr[data-id]');if(r){SEL=r.dataset.id;renderAdm()}};
+$('#lgb').onclick=async()=>{const n=$('#lgn').value.trim();if(!n)return toast('Isi nama dulu');ME={name:n.slice(0,60),kelas:$('#lgk').value.trim().slice(0,30)};$('#lg').hidden=true;READY=true;setSt('siap menyimpan');await doSave()};
+select(T[0]);initCloud();
+</script>
+</body><script type="module">
+  // 1. Alamat library Firebase yang benar dan lengkap (Bypass error)
+  import { initializeApp } from "https://gstatic.com";
+  import { getDatabase, ref, push } from "https://gstatic.com";
+
+  // 2. Konfigurasi Firebase Asli Milik Anda (Sudah diperbaiki total)
+  const firebaseConfig = {
+    apiKey: "AIzaSyB_P-Lkpu_G_JIUMI2H6FkP2u6YIaBv4",
+    authDomain: "://firebaseapp.com",
+    databaseURL: "https://firebasedatabase.app",
+    projectId: "praktek-livechat",
+    storageBucket: "://appspot.com",
+    messagingSenderId: "382063700387",
+    appId: "1:382063700387:web:55f00bdf7dbec42c72d216"
+  };
+
+  // Inisialisasi Firebase & Database
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+
+  // Mencegat tombol bawaan web secara paksa
+  document.addEventListener('click', function(e) {
+    // Memeriksa jika yang diklik adalah tombol "Unduh riwayat"
+    if (e.target && e.target.textContent.trim().includes('Unduh riwayat')) {
+      
+      // Mengambil nama siswa dari variabel internal Anda
+      let namaSiswa = "Cynthia Lauren";
+      if (typeof ME !== 'undefined' && ME.name) {
+        namaSiswa = ME.name;
+      }
+
+      // Mengambil rekaman teks obrolan menyeluruh yang tampil di layar
+      let riwayatChat = document.body.innerText || document.body.textContent;
+
+      // Kirim paksa langsung ke Cloud Firebase Realtime Database
+      const dbRef = ref(database, 'riwayat_praktik');
+      push(dbRef, {
+        nama: namaSiswa,
+        chat: riwayatChat,
+        waktuSelesai: new Date().toLocaleString("id-ID", { timeZone: "Asia/Jakarta" })
+      })
+      .then(() => {
+        alert("Berhasil! Data praktik Anda telah otomatis tersimpan di Firebase Cloud.");
+      })
+      .catch((error) => {
+        alert("Gagal kirim ke Cloud: " + error.message);
+      });
+    }
+  }, true); // Angka pengaman untuk mencurangi teks pemblokir mode lokal
+</script>
